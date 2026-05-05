@@ -6,6 +6,11 @@ import traceback
 app = Flask(__name__)
 CORS(app)
 
+# ROTA DE TESTE - Acesse /api/test no navegador
+@app.route('/api/test')
+def test():
+    return jsonify({"status": "API está funcionando!", "biblioteca": "pytubefix"})
+
 @app.route('/api/info')
 def get_info():
     url = request.args.get('url')
@@ -13,11 +18,10 @@ def get_info():
         return jsonify({"error": "URL não fornecida"}), 400
     
     try:
-        # Usamos client='MWEB' para simular um navegador mobile (costuma evitar bloqueios)
-        yt = YouTube(url, client='MWEB')
+        # Tentativa com cliente WEB_CREATOR que às vezes é mais estável
+        yt = YouTube(url, client='WEB_CREATOR')
         
         streams = []
-        # Pegamos apenas MP4 progressivo (vídeo + áudio)
         for stream in yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc():
             streams.append({
                 "itag": stream.itag,
@@ -26,23 +30,16 @@ def get_info():
                 "url": stream.url
             })
             
-        if not streams:
-             return jsonify({"error": "Nenhum formato compatível encontrado. Tente outro vídeo."}), 404
-
         return jsonify({
             "title": yt.title,
             "thumbnail": yt.thumbnail_url,
-            "duration": yt.length,
-            "author": yt.author,
             "streams": streams
         })
     except Exception as e:
-        # Isso vai imprimir o erro exato nos logs do Vercel
-        print(traceback.format_exc())
-        # E isso vai te mostrar o erro no console do navegador
+        error_msg = str(e)
+        print(f"ERRO: {error_msg}")
         return jsonify({
-            "error": "Erro no Servidor",
-            "details": str(e)
+            "error": "Erro ao buscar vídeo",
+            "details": error_msg,
+            "trace": traceback.format_exc()
         }), 500
-
-app.debug = True
