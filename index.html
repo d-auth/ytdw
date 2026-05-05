@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader | Premium Experience</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Baixe vídeos do YouTube com facilidade e rapidez. Experiência premium, gratuita e sem anúncios chatos.">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <header class="header">
+            <h1 class="logo">YT<span>Downloader</span></h1>
+            <p class="subtitle">A maneira mais rápida e elegante de baixar vídeos do YouTube.</p>
+        </header>
+
+        <section class="search-section">
+            <div class="input-wrapper">
+                <input type="text" id="urlInput" placeholder="Cole o link do vídeo aqui..." autocomplete="off">
+                <button id="fetchBtn" class="btn-primary">
+                    <span class="btn-text">Analisar</span>
+                    <div class="loader" id="loader"></div>
+                </button>
+            </div>
+            <p id="errorMsg" class="error-msg"></p>
+        </section>
+
+        <section id="resultSection" class="result-section hidden">
+            <div class="video-card">
+                <div class="video-preview">
+                    <img id="videoThumb" src="" alt="Thumbnail do vídeo">
+                    <span id="videoDuration" class="duration-badge"></span>
+                </div>
+                <div class="video-info">
+                    <h2 id="videoTitle"></h2>
+                    <p id="videoAuthor" class="author"></p>
+                    
+                    <div class="download-options">
+                        <h3>Qualidade Disponível</h3>
+                        <div id="streamsList" class="streams-list">
+                            <!-- Streams serão inseridos aqui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <div class="icon">⚡</div>
+                <h3>Rápido</h3>
+                <p>Processamento instantâneo para que você não perca tempo.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">💎</div>
+                <h3>Qualidade</h3>
+                <p>Suporte para resoluções até 720p (HD) com áudio incluso.</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🛡️</div>
+                <h3>Seguro</h3>
+                <p>Sem anúncios invasivos ou scripts maliciosos.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 YT Downloader Premium. Feito com ❤️ para você.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
