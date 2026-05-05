@@ -6,7 +6,6 @@ import traceback
 app = Flask(__name__)
 CORS(app)
 
-# ROTA DE TESTE - Acesse /api/test no navegador
 @app.route('/api/test')
 def test():
     return jsonify({"status": "API está funcionando!", "biblioteca": "pytubefix"})
@@ -18,10 +17,11 @@ def get_info():
         return jsonify({"error": "URL não fornecida"}), 400
     
     try:
-        # Tentativa com cliente WEB_CREATOR que às vezes é mais estável
-        yt = YouTube(url, client='WEB_CREATOR')
+        # ANDROID_VR costuma ser o cliente mais difícil de o YouTube bloquear
+        yt = YouTube(url, client='ANDROID_VR')
         
         streams = []
+        # Tenta pegar os formatos MP4
         for stream in yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc():
             streams.append({
                 "itag": stream.itag,
@@ -33,13 +33,13 @@ def get_info():
         return jsonify({
             "title": yt.title,
             "thumbnail": yt.thumbnail_url,
+            "author": yt.author,
             "streams": streams
         })
     except Exception as e:
-        error_msg = str(e)
-        print(f"ERRO: {error_msg}")
+        # Se falhar, vamos retornar o erro exato para você ler
         return jsonify({
-            "error": "Erro ao buscar vídeo",
-            "details": error_msg,
-            "trace": traceback.format_exc()
+            "error": "O YouTube bloqueou o acesso do servidor",
+            "details": str(e)
         }), 500
+
